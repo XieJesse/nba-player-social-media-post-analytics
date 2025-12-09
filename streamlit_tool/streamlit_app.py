@@ -24,6 +24,9 @@ pages = {
         st.Page("figure_2_interactive.py", title="Toxicity Score Over Time Per Player"),
         st.Page("figure_3_interactive.py", title="Top 50 Players By Sentiment Score vs ESPN Ranking"),
     ],
+    "Report": [
+        st.Page("report.py", title="Report"),
+    ],
 }
 
 pg = st.navigation(pages, position="top")
