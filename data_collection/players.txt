@@ -1,0 +1,50 @@
+LeBron James,lbj,lebron
+Stephen Curry,curry
+Kevin Durant,kd,durant
+Damian Lillard,dame,lillard
+Jayson Tatum,jt,tatum
+Jaylen Brown
+James Harden,harden
+Kyrie Irving,kyrie,irving
+Anthony Davis, ad ,davis
+Jalen Brunson,brunson
+Cade Cunningham,cade,Cunningham
+Anthony Edwards,edwards, ant ,antman
+Darius Garland,garland
+Tyler Herro,herro
+Jaren Jackson Jr.,jjj
+Evan Mobley,mobley
+Jalen Williams,jdub
+Shai Gilgeous-Alexander,shai,sga,shai gilgeous alexander
+Nikola Jokic,jokic
+Donovan Mitchell,mitchell
+Pascal Siakam,siakam,pascal
+Karl-Anthony Towns,kat,karl anthony towns
+Alperen Sengun,sengun
+Victor Wembanyama,wemby,wembanyama
+Trae Young,trae,ice trae
+Joel Embiid,embiid
+Cooper Flagg,flagg
+Domantas Sabonis,sabonis
+LaMelo Ball,melo,lamelo
+Franz Wagner,franz
+Paolo Banchero,paolo,banchero
+De’Aaron Fox,fox,DeAaron,De’Aaron
+Tyrese Haliburton,hali,haliburton
+Kawhi Leonard,leonard,kawhi
+Luka Doncic,luka,doncic
+Tyrese Maxey,maxey
+Devin Booker,dbook,booker
+Julius Randle,randle
+Zach LaVine,lavine
+Rudy Gobert,gobert
+Jamal Murray,murray,jamal
+Amen Thompson
+Giannis Antetokounmpo,giannis,antetokounmpo
+Bam Adebayo,bam,adebayo
+Ja Morant,ja ,morant
+Chet Holmgren,chet,holmgren
+Jimmy Butler,butler
+Zion Williamson,zion
+Scottie Barnes,barnes
+Lauri Markkanen,markkanen
