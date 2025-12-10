@@ -8,7 +8,13 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import psycopg
 
-with psycopg.connect("dbname=project1 user=postgres password=postgres") as conn:
+with psycopg.connect(
+    host=st.secrets["postgres"]["host"],
+    port=st.secrets["postgres"]["port"],
+    dbname=st.secrets["postgres"]["dbname"],
+    user=st.secrets["postgres"]["user"],
+    password=st.secrets["postgres"]["password"],
+) as conn:
     # print("test")
     with conn.cursor() as cur:
         plt.rcParams.update({'font.size': 14})

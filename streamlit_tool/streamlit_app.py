@@ -27,6 +27,9 @@ pages = {
     "Report": [
         st.Page("report.py", title="Report"),
     ],
+    "Credits": [
+        st.Page("credits.py", title="Credits"),
+    ],
 }
 
 pg = st.navigation(pages, position="top")

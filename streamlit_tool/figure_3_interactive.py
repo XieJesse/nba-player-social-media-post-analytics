@@ -8,7 +8,13 @@ import psycopg
 espn_df = pd.read_csv("espn_rankings.csv")
 espn_df["date"] = pd.to_datetime(espn_df["date"])
 
-with psycopg.connect("dbname=project1 user=postgres password=postgres") as conn:
+with psycopg.connect(
+    host=st.secrets["postgres"]["host"],
+    port=st.secrets["postgres"]["port"],
+    dbname=st.secrets["postgres"]["dbname"],
+    user=st.secrets["postgres"]["user"],
+    password=st.secrets["postgres"]["password"],
+) as conn:
     with conn.cursor() as cur:
         get_posts_in_date_range_query = """
             WITH daily_totals AS (

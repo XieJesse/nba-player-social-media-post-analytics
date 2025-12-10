@@ -8,48 +8,54 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import psycopg
 
-with psycopg.connect("dbname=project1 user=postgres password=postgres") as conn:
+with psycopg.connect(
+    host=st.secrets["postgres"]["host"],
+    port=st.secrets["postgres"]["port"],
+    dbname=st.secrets["postgres"]["dbname"],
+    user=st.secrets["postgres"]["user"],
+    password=st.secrets["postgres"]["password"],
+) as conn:
     # print("test")
     with conn.cursor() as cur:
-        player_sentiment_scores = [[(0,0) for j in range(41)] for i in range(50)] 
-        # (total_score, num_posts)
+
+        player_sentiment_scores = [[(0, 0) for _ in range(41)] for _ in range(50)]
         startDate = datetime(2025, 10, 22)
-        get_player_posts_query = """
-                    SELECT player_id, post_id, sentiment_score
-                    FROM player_posts ;
+
+        query = """
+            SELECT 
+                pp.player_id,
+                pp.sentiment_score::double precision AS sentiment_score,
+                p.created_time
+            FROM player_posts pp
+            JOIN posts p ON pp.post_id = p.id
+            WHERE p.created_time BETWEEN %s AND %s;
         """
-        get_post_query = """
-                    SELECT created_time
-                    FROM posts
-                    WHERE id = %s ;
-        """
-        cur.execute(get_player_posts_query)
-        player_posts = cur.fetchall()
-        # print(len(player_posts))
-        for player_post in player_posts:
-            player_id = player_post[0]
-            post_id = player_post[1]
-            sentiment_score = player_post[2]
-            cur.execute(get_post_query,(post_id,))
-            post = cur.fetchone()
-            created_time = post[0]
-            dateIndex = (created_time - startDate).days
-            # if (dateIndex == 1 and player_id == 36 and sentiment_score < -0.5):
-            #     print(post_id)
-            if dateIndex >= 41 or dateIndex < 0:
-                # print(dateIndex)
-                continue
-            else:
-                player_sentiment_scores[player_id-1][dateIndex] = (player_sentiment_scores[player_id-1][dateIndex][0] + sentiment_score, player_sentiment_scores[player_id-1][dateIndex][1] + 1)
-            # except:
-                # print(dateIndex)
-        # print(player_sentiment_scores)
-        average_player_sentiment_scores = [[player_sentiment_scores[i][j][0] / player_sentiment_scores[i][j][1] for j in range(41)] for i in range(50)] 
-        dates = []
-        curDate = datetime(2025, 10, 22) 
-        for i in range(41):
-            dates.append(curDate)
-            curDate = curDate + timedelta(hours=24)
+
+        endDate = startDate + timedelta(days=41)
+
+        cur.execute(query, (startDate, endDate))
+        rows = cur.fetchall()
+
+        start_ts = pd.to_datetime(startDate, utc=True)
+
+        for player_id, sentiment_score, created_time in rows:
+            created_ts = pd.to_datetime(created_time, utc=True)
+            dateIndex = (created_ts - start_ts).days
+            # print(created_ts)
+            # print(dateIndex)
+            if 0 <= dateIndex < 41:  
+                total, count = player_sentiment_scores[player_id - 1][dateIndex]
+                player_sentiment_scores[player_id - 1][dateIndex] = (total + sentiment_score, count + 1)
+
+        average_player_sentiment_scores = [
+            [
+                (total / count) if count > 0 else 0
+                for total, count in player_sentiment_scores[i]
+            ]
+            for i in range(50)
+        ]
+
+        dates = [startDate + timedelta(days=i) for i in range(41)]
 
 
         # fig = plt.figure(1)

@@ -7,7 +7,14 @@ import psycopg
 from datetime import datetime, timedelta, timezone
 import pandas as pd
 
-with psycopg.connect("dbname=project1 user=postgres password=postgres") as conn:
+
+with psycopg.connect(
+    host=st.secrets["postgres"]["host"],
+    port=st.secrets["postgres"]["port"],
+    dbname=st.secrets["postgres"]["dbname"],
+    user=st.secrets["postgres"]["user"],
+    password=st.secrets["postgres"]["password"],
+) as conn:
     # print("test")
     with conn.cursor() as cur:
         selected_platforms = []
@@ -44,6 +51,6 @@ with psycopg.connect("dbname=project1 user=postgres password=postgres") as conn:
 
         st.header("Posts Table")
         df = pd.DataFrame(rows, columns=["id","title","platform","content","url","created_time","toxicity_score"])
-        filtered_data = df[df['created_time'].between(date_range[0], date_range[1]) & df['toxicity_score'].between(toxicity_score_range[0], toxicity_score_range[1]) & df['platform'].isin(selected_platforms)]
+        filtered_data = df[df['created_time'].between(pd.to_datetime(date_range[0], utc=True), pd.to_datetime(date_range[1], utc=True)) & df['toxicity_score'].between(toxicity_score_range[0], toxicity_score_range[1]) & df['platform'].isin(selected_platforms)]
         st.dataframe(filtered_data,selection_mode="single-row",hide_index=True)
             
